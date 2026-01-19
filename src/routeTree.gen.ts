@@ -9,68 +9,135 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AboutRouteImport } from './routes/about'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as Common_layoutRouteImport } from './routes/_common_layout'
+import { Route as Common_layoutIndexRouteImport } from './routes/_common_layout/index'
+import { Route as Common_layoutSpacesRouteImport } from './routes/_common_layout/spaces'
+import { Route as Common_layoutBookingsRouteImport } from './routes/_common_layout/bookings'
+import { Route as Common_layoutAccountRouteImport } from './routes/_common_layout/account'
 
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
+const Common_layoutRoute = Common_layoutRouteImport.update({
+  id: '/_common_layout',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
+const Common_layoutIndexRoute = Common_layoutIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => Common_layoutRoute,
+} as any)
+const Common_layoutSpacesRoute = Common_layoutSpacesRouteImport.update({
+  id: '/spaces',
+  path: '/spaces',
+  getParentRoute: () => Common_layoutRoute,
+} as any)
+const Common_layoutBookingsRoute = Common_layoutBookingsRouteImport.update({
+  id: '/bookings',
+  path: '/bookings',
+  getParentRoute: () => Common_layoutRoute,
+} as any)
+const Common_layoutAccountRoute = Common_layoutAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => Common_layoutRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/': typeof Common_layoutIndexRoute
+  '/account': typeof Common_layoutAccountRoute
+  '/bookings': typeof Common_layoutBookingsRoute
+  '/spaces': typeof Common_layoutSpacesRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/account': typeof Common_layoutAccountRoute
+  '/bookings': typeof Common_layoutBookingsRoute
+  '/spaces': typeof Common_layoutSpacesRoute
+  '/': typeof Common_layoutIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/_common_layout': typeof Common_layoutRouteWithChildren
+  '/_common_layout/account': typeof Common_layoutAccountRoute
+  '/_common_layout/bookings': typeof Common_layoutBookingsRoute
+  '/_common_layout/spaces': typeof Common_layoutSpacesRoute
+  '/_common_layout/': typeof Common_layoutIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about'
+  fullPaths: '/' | '/account' | '/bookings' | '/spaces'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about'
-  id: '__root__' | '/' | '/about'
+  to: '/account' | '/bookings' | '/spaces' | '/'
+  id:
+    | '__root__'
+    | '/_common_layout'
+    | '/_common_layout/account'
+    | '/_common_layout/bookings'
+    | '/_common_layout/spaces'
+    | '/_common_layout/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
+  Common_layoutRoute: typeof Common_layoutRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
+    '/_common_layout': {
+      id: '/_common_layout'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof Common_layoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
+    '/_common_layout/': {
+      id: '/_common_layout/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof Common_layoutIndexRouteImport
+      parentRoute: typeof Common_layoutRoute
+    }
+    '/_common_layout/spaces': {
+      id: '/_common_layout/spaces'
+      path: '/spaces'
+      fullPath: '/spaces'
+      preLoaderRoute: typeof Common_layoutSpacesRouteImport
+      parentRoute: typeof Common_layoutRoute
+    }
+    '/_common_layout/bookings': {
+      id: '/_common_layout/bookings'
+      path: '/bookings'
+      fullPath: '/bookings'
+      preLoaderRoute: typeof Common_layoutBookingsRouteImport
+      parentRoute: typeof Common_layoutRoute
+    }
+    '/_common_layout/account': {
+      id: '/_common_layout/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof Common_layoutAccountRouteImport
+      parentRoute: typeof Common_layoutRoute
     }
   }
 }
 
+interface Common_layoutRouteChildren {
+  Common_layoutAccountRoute: typeof Common_layoutAccountRoute
+  Common_layoutBookingsRoute: typeof Common_layoutBookingsRoute
+  Common_layoutSpacesRoute: typeof Common_layoutSpacesRoute
+  Common_layoutIndexRoute: typeof Common_layoutIndexRoute
+}
+
+const Common_layoutRouteChildren: Common_layoutRouteChildren = {
+  Common_layoutAccountRoute: Common_layoutAccountRoute,
+  Common_layoutBookingsRoute: Common_layoutBookingsRoute,
+  Common_layoutSpacesRoute: Common_layoutSpacesRoute,
+  Common_layoutIndexRoute: Common_layoutIndexRoute,
+}
+
+const Common_layoutRouteWithChildren = Common_layoutRoute._addFileChildren(
+  Common_layoutRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
+  Common_layoutRoute: Common_layoutRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
