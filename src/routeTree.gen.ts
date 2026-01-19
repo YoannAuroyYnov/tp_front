@@ -11,9 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as Common_layoutRouteImport } from './routes/_common_layout'
 import { Route as Common_layoutIndexRouteImport } from './routes/_common_layout/index'
-import { Route as Common_layoutSpacesRouteImport } from './routes/_common_layout/spaces'
-import { Route as Common_layoutBookingsRouteImport } from './routes/_common_layout/bookings'
-import { Route as Common_layoutAccountRouteImport } from './routes/_common_layout/account'
+import { Route as Common_layoutSpacesIndexRouteImport } from './routes/_common_layout/spaces/index'
+import { Route as Common_layoutBookingsIndexRouteImport } from './routes/_common_layout/bookings/index'
+import { Route as Common_layoutSpacesIdRouteImport } from './routes/_common_layout/spaces/$id'
+import { Route as Common_layoutBookingsIdRouteImport } from './routes/_common_layout/bookings/$id'
 
 const Common_layoutRoute = Common_layoutRouteImport.update({
   id: '/_common_layout',
@@ -24,54 +25,65 @@ const Common_layoutIndexRoute = Common_layoutIndexRouteImport.update({
   path: '/',
   getParentRoute: () => Common_layoutRoute,
 } as any)
-const Common_layoutSpacesRoute = Common_layoutSpacesRouteImport.update({
-  id: '/spaces',
-  path: '/spaces',
+const Common_layoutSpacesIndexRoute =
+  Common_layoutSpacesIndexRouteImport.update({
+    id: '/spaces/',
+    path: '/spaces/',
+    getParentRoute: () => Common_layoutRoute,
+  } as any)
+const Common_layoutBookingsIndexRoute =
+  Common_layoutBookingsIndexRouteImport.update({
+    id: '/bookings/',
+    path: '/bookings/',
+    getParentRoute: () => Common_layoutRoute,
+  } as any)
+const Common_layoutSpacesIdRoute = Common_layoutSpacesIdRouteImport.update({
+  id: '/spaces/$id',
+  path: '/spaces/$id',
   getParentRoute: () => Common_layoutRoute,
 } as any)
-const Common_layoutBookingsRoute = Common_layoutBookingsRouteImport.update({
-  id: '/bookings',
-  path: '/bookings',
-  getParentRoute: () => Common_layoutRoute,
-} as any)
-const Common_layoutAccountRoute = Common_layoutAccountRouteImport.update({
-  id: '/account',
-  path: '/account',
+const Common_layoutBookingsIdRoute = Common_layoutBookingsIdRouteImport.update({
+  id: '/bookings/$id',
+  path: '/bookings/$id',
   getParentRoute: () => Common_layoutRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof Common_layoutIndexRoute
-  '/account': typeof Common_layoutAccountRoute
-  '/bookings': typeof Common_layoutBookingsRoute
-  '/spaces': typeof Common_layoutSpacesRoute
+  '/bookings/$id': typeof Common_layoutBookingsIdRoute
+  '/spaces/$id': typeof Common_layoutSpacesIdRoute
+  '/bookings/': typeof Common_layoutBookingsIndexRoute
+  '/spaces/': typeof Common_layoutSpacesIndexRoute
 }
 export interface FileRoutesByTo {
-  '/account': typeof Common_layoutAccountRoute
-  '/bookings': typeof Common_layoutBookingsRoute
-  '/spaces': typeof Common_layoutSpacesRoute
   '/': typeof Common_layoutIndexRoute
+  '/bookings/$id': typeof Common_layoutBookingsIdRoute
+  '/spaces/$id': typeof Common_layoutSpacesIdRoute
+  '/bookings': typeof Common_layoutBookingsIndexRoute
+  '/spaces': typeof Common_layoutSpacesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_common_layout': typeof Common_layoutRouteWithChildren
-  '/_common_layout/account': typeof Common_layoutAccountRoute
-  '/_common_layout/bookings': typeof Common_layoutBookingsRoute
-  '/_common_layout/spaces': typeof Common_layoutSpacesRoute
   '/_common_layout/': typeof Common_layoutIndexRoute
+  '/_common_layout/bookings/$id': typeof Common_layoutBookingsIdRoute
+  '/_common_layout/spaces/$id': typeof Common_layoutSpacesIdRoute
+  '/_common_layout/bookings/': typeof Common_layoutBookingsIndexRoute
+  '/_common_layout/spaces/': typeof Common_layoutSpacesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/account' | '/bookings' | '/spaces'
+  fullPaths: '/' | '/bookings/$id' | '/spaces/$id' | '/bookings/' | '/spaces/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/account' | '/bookings' | '/spaces' | '/'
+  to: '/' | '/bookings/$id' | '/spaces/$id' | '/bookings' | '/spaces'
   id:
     | '__root__'
     | '/_common_layout'
-    | '/_common_layout/account'
-    | '/_common_layout/bookings'
-    | '/_common_layout/spaces'
     | '/_common_layout/'
+    | '/_common_layout/bookings/$id'
+    | '/_common_layout/spaces/$id'
+    | '/_common_layout/bookings/'
+    | '/_common_layout/spaces/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -94,42 +106,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Common_layoutIndexRouteImport
       parentRoute: typeof Common_layoutRoute
     }
-    '/_common_layout/spaces': {
-      id: '/_common_layout/spaces'
+    '/_common_layout/spaces/': {
+      id: '/_common_layout/spaces/'
       path: '/spaces'
-      fullPath: '/spaces'
-      preLoaderRoute: typeof Common_layoutSpacesRouteImport
+      fullPath: '/spaces/'
+      preLoaderRoute: typeof Common_layoutSpacesIndexRouteImport
       parentRoute: typeof Common_layoutRoute
     }
-    '/_common_layout/bookings': {
-      id: '/_common_layout/bookings'
+    '/_common_layout/bookings/': {
+      id: '/_common_layout/bookings/'
       path: '/bookings'
-      fullPath: '/bookings'
-      preLoaderRoute: typeof Common_layoutBookingsRouteImport
+      fullPath: '/bookings/'
+      preLoaderRoute: typeof Common_layoutBookingsIndexRouteImport
       parentRoute: typeof Common_layoutRoute
     }
-    '/_common_layout/account': {
-      id: '/_common_layout/account'
-      path: '/account'
-      fullPath: '/account'
-      preLoaderRoute: typeof Common_layoutAccountRouteImport
+    '/_common_layout/spaces/$id': {
+      id: '/_common_layout/spaces/$id'
+      path: '/spaces/$id'
+      fullPath: '/spaces/$id'
+      preLoaderRoute: typeof Common_layoutSpacesIdRouteImport
+      parentRoute: typeof Common_layoutRoute
+    }
+    '/_common_layout/bookings/$id': {
+      id: '/_common_layout/bookings/$id'
+      path: '/bookings/$id'
+      fullPath: '/bookings/$id'
+      preLoaderRoute: typeof Common_layoutBookingsIdRouteImport
       parentRoute: typeof Common_layoutRoute
     }
   }
 }
 
 interface Common_layoutRouteChildren {
-  Common_layoutAccountRoute: typeof Common_layoutAccountRoute
-  Common_layoutBookingsRoute: typeof Common_layoutBookingsRoute
-  Common_layoutSpacesRoute: typeof Common_layoutSpacesRoute
   Common_layoutIndexRoute: typeof Common_layoutIndexRoute
+  Common_layoutBookingsIdRoute: typeof Common_layoutBookingsIdRoute
+  Common_layoutSpacesIdRoute: typeof Common_layoutSpacesIdRoute
+  Common_layoutBookingsIndexRoute: typeof Common_layoutBookingsIndexRoute
+  Common_layoutSpacesIndexRoute: typeof Common_layoutSpacesIndexRoute
 }
 
 const Common_layoutRouteChildren: Common_layoutRouteChildren = {
-  Common_layoutAccountRoute: Common_layoutAccountRoute,
-  Common_layoutBookingsRoute: Common_layoutBookingsRoute,
-  Common_layoutSpacesRoute: Common_layoutSpacesRoute,
   Common_layoutIndexRoute: Common_layoutIndexRoute,
+  Common_layoutBookingsIdRoute: Common_layoutBookingsIdRoute,
+  Common_layoutSpacesIdRoute: Common_layoutSpacesIdRoute,
+  Common_layoutBookingsIndexRoute: Common_layoutBookingsIndexRoute,
+  Common_layoutSpacesIndexRoute: Common_layoutSpacesIndexRoute,
 }
 
 const Common_layoutRouteWithChildren = Common_layoutRoute._addFileChildren(
